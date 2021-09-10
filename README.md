@@ -16,11 +16,13 @@ Rust client libray for [Consul](http://consul.io/) HTTP API
     use consul::{Client, Config, QueryMeta};
     use consul::catalog::Catalog;
 
-    fn main(){
+    #[tokio::main]
+    async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let config = Config::new().unwrap();
         let client = Client::new(config);
 		let services: (HashMap<String, String>, QueryMeta) = client.services(None).unwrap();
 		println!("{:?}", services);
+		Ok((
     }
 ```
 
@@ -33,5 +35,5 @@ Simply include the consul-rust in your Cargo dependencies.
 
 ```
 [dependencies]
-consul = "0.4"
+consul = "0.5"
 ```

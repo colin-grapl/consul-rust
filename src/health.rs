@@ -40,8 +40,9 @@ pub struct ServiceEntry {
     pub Checks: Vec<HealthCheck>,
 }
 
+#[async_trait::async_trait]
 pub trait Health {
-    fn service(
+    async fn service(
         &self,
         service: &str,
         tag: Option<&str>,
@@ -50,8 +51,9 @@ pub trait Health {
     ) -> Result<(Vec<ServiceEntry>, QueryMeta)>;
 }
 
+#[async_trait::async_trait]
 impl Health for Client {
-    fn service(
+    async fn service(
         &self,
         service: &str,
         tag: Option<&str>,
@@ -66,6 +68,6 @@ impl Health for Client {
         if let Some(tag) = tag {
             params.insert(String::from("tag"), tag.to_owned());
         }
-        get(&path, &self.config, params, options)
+        get(&path, &self.config, params, options).await
     }
 }
