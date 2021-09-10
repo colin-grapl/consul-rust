@@ -13,7 +13,7 @@ async fn ds_test() {
 #[tokio::test]
 async fn ds_services_test() {
     use consul::catalog::Catalog;
-    let config = Config::new().unwrap();
+    let config = Config::new_from_env().unwrap();
     let client = Client::new(config);
     let r = client.services(Option::None).await.unwrap();
     assert_ne!(r.0.len(), 0);

@@ -5,7 +5,7 @@ use consul::{Client, Config};
 #[tokio::test]
 async fn kv_test() {
     use consul::kv::KV;
-    let config = Config::new().unwrap();
+    let config = Config::new_from_env().unwrap();
     let client = Client::new(config);
     let r = client.list("", None).await.unwrap();
     assert!(r.0.is_empty());

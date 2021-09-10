@@ -9,9 +9,7 @@ Rust client libray for [Consul](http://consul.io/) HTTP API
 
 ### Usage
 
-```
-    extern crate consul;
-
+```rust
     use std::collections::HashMap;
     use consul::{Client, Config, QueryMeta};
     use consul::catalog::Catalog;

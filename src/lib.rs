@@ -46,31 +46,12 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new() -> Result<Config> {
-        ClientBuilder::new()
-            .build()
-            .chain_err(|| "Failed to build reqwest client")
-            .map(|client| Config {
-                address: String::from("http://localhost:8500"),
-                datacenter: None,
-                http_client: client,
-                token: None,
-                wait_time: None,
-            })
-    }
-
     pub fn new_from_env() -> Result<Config> {
-        let consul_addr = match env::var("CONSUL_HTTP_ADDR") {
-            Ok(val) => {
-                if val.starts_with("http") {
-                    val
-                } else {
-                    format!("http://{}", val)
-                }
-            }
-            Err(_e) => String::from("http://127.0.0.1:8500"),
-        };
+        let consul_addr = env::var("CONSUL_HTTP_ADDR")
+            .chain_err(|| "CONSUL_HTTP_ADDR is not set")?;
+
         let consul_token = env::var("CONSUL_HTTP_TOKEN").ok();
+
         ClientBuilder::new()
             .build()
             .chain_err(|| "Failed to build reqwest client")

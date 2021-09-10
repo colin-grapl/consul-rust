@@ -1,0 +1,7 @@
+!src/
+!tests/
+!Cargo.toml
+!Cargo.lock
+.git/
+.github/
+.idea/

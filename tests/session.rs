@@ -155,9 +155,7 @@ fn session_node_test() {
 
         let created_session_entry_id = created_session_entry.ID.unwrap();
 
-        let system_hostname = hostname::get().unwrap().into_string().unwrap();
-
-        let (session_entries, _) = client.node(&system_hostname, None).await.unwrap();
+        let (session_entries, _) = client.node("consul", None).await.unwrap();
 
         let filtered_session_entries: Vec<&SessionEntry> = session_entries
             .iter()
@@ -192,7 +190,7 @@ fn session_renew_test() {
 }
 
 fn set_up() -> (Client, String) {
-    let config = Config::new().unwrap();
+    let config = Config::new_from_env().unwrap();
     let client = Client::new(config);
 
     let unique_test_identifier: String = thread_rng()
